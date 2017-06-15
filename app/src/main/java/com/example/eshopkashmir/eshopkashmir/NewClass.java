@@ -6,5 +6,6 @@ package com.example.eshopkashmir.eshopkashmir;
 
 public class NewClass {
     public NewClass() {
+
     }
 }
