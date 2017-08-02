@@ -3,4 +3,8 @@
     <string name="site_description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quanta sit alias, nunc tantum possitne esse tanta. Tum Triarius: Posthac quidem, inquit, audacius. Nec lapathi suavitatem acupenseri Galloni Laelius anteponebat, sed suavitatem ipsam neglegebat; Nam memini etiam quae nolo, oblivisci non possum quae volo. Duo Reges: constructio interrete. Habent enim et bene longam et</string>
     <string name="categories">Categories</string>
     <string name="e_shop_kashmir">E-Shop Kashmir</string>
+    <string name="my_account">My Account</string>
+    <string name="search">Search</string>
+    <string name="wishlist">My Wishlist</string>
+    <string name="my_cart">My Cart</string>
 </resources>

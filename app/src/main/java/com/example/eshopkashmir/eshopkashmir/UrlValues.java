@@ -17,5 +17,6 @@ public class UrlValues {
     public static final String MEDICINES = "http://eshopkashmir.com/medi.html";
     public static final String ELECTRONICS = "http://eshopkashmir.com/electronics.html";
     public static final String SPECIAL_CATEGORY = "http://eshopkashmir.com/special-catogery.html";
+    public static final String Home = "http://eshopkashmir.com/";
 
 }

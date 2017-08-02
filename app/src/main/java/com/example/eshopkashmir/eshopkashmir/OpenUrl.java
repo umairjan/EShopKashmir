@@ -7,6 +7,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
@@ -25,6 +26,8 @@ public class OpenUrl extends BaseActivity implements AdvancedWebView.Listener {
         super.onCreate(savedInstanceState);
 //        progressDialog = new ProgressDialog();
         setContentView(R.layout.activity_open_url);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         String url = getIntent().getExtras().getString("url");
         mWebView = (AdvancedWebView) findViewById(R.id.urlWebView);
         mWebView.setListener(this,this);
@@ -56,18 +59,12 @@ public class OpenUrl extends BaseActivity implements AdvancedWebView.Listener {
     }
 
 
-//    @Override
-//    public void onBackPressed() {
-//        super.onBackPressed();
-//        if (mWebView.canGoBack()){
-//            mWebView.goBack();
-//        }
-//    }
 
     @Override
     public void onPageStarted(String url, Bitmap favicon) {
         if (!url.equals(URL_ACCOUNT)) {
             progressDialog = ProgressDialog.show(OpenUrl.this, "Loading", "Please Wait", false, false);
+            progressDialog.setCancelable(true);
         } else {
 //            Toast.makeText(OpenUrl.this,"Loading Account Page",Toast.LENGTH_SHORT).show();
         }

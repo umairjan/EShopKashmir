@@ -1,16 +1,17 @@
 package com.example.eshopkashmir.eshopkashmir;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v4.view.ViewPager;
 
 import android.os.Bundle;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.ScrollView;
-import android.widget.Toast;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -32,17 +33,28 @@ public class LauncherActivity extends BaseActivity {
     private final int[] image_url = {
             R.drawable.ic_groceries, R.drawable.ic_food, R.drawable.ic_bakery, R.drawable.ic_meat,
             R.drawable.ic_dry_fruits, R.drawable.ic_baby, R.drawable.ic_daily_supplies, R.drawable.ic_personal_care,
-            R.drawable.booksandstationary, R.drawable.ic_medicine, R.drawable.ic_electronics, R.drawable.ic_specials
+            R.drawable.ic_notebook, R.drawable.ic_medicine, R.drawable.ic_electronics, R.drawable.ic_specials
     };
     private NestedScrollView scrollView;
     String url;
+    ImageView logo;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().setTitle(R.string.e_shop_kashmir);
         setContentView(R.layout.activity_launcher);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(R.string.e_shop_kashmir);
+        logo = (ImageView) findViewById(R.id.logo);
+        logo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                displayCategory(UrlValues.Home);
+
+            }
+        });
         scrollView = (NestedScrollView) findViewById(R.id.categoryScroll);
         scrollView.setSmoothScrollingEnabled(true);
         initSlider();
@@ -88,6 +100,8 @@ public class LauncherActivity extends BaseActivity {
         final ArrayList<Category> categoryName = prepareData();
         CategoryAdapter adapter = new CategoryAdapter(getApplicationContext(),categoryName);
         recyclerView.setAdapter(adapter);
+//        int alpha = (int)(.50f * 255.0f);
+//        recyclerView.setBackgroundColor(Color.argb(alpha,244,162,52));
         recyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(LauncherActivity.this, new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
