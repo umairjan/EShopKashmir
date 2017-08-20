@@ -12,16 +12,19 @@
     </item>
     <item
         android:title="@string/my_account"
+        android:id="@+id/myAccountMenu"
         >
 
     </item>
     <item
         android:title="@string/wishlist"
+        android:id="@+id/wishlistMenu"
         >
 
     </item>
     <item
         android:title="@string/my_cart"
+        android:id="@+id/mycartMenu"
         >
 
     </item>

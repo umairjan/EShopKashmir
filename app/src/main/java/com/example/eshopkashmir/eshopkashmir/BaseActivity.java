@@ -1,6 +1,5 @@
 package com.example.eshopkashmir.eshopkashmir;
 
-import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -46,6 +45,31 @@ public class BaseActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+
+            case R.id.myAccountMenu :
+                displayCategory(UrlValues.MY_ACCOUNT);
+                break;
+
+            case R.id.wishlistMenu :
+                displayCategory(UrlValues.MY_WISHLIST);
+                break;
+
+            case R.id.mycartMenu :
+                displayCategory(UrlValues.MY_CART);
+                break;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
 
         return true;
     }

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -24,7 +23,7 @@ public class OpenUrl extends BaseActivity implements AdvancedWebView.Listener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        progressDialog = new ProgressDialog();
+//        progressDialog = new ProgressDialog(this);
         setContentView(R.layout.activity_open_url);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -45,6 +44,7 @@ public class OpenUrl extends BaseActivity implements AdvancedWebView.Listener {
                 super.onReceivedTitle(view, title);
                 getSupportActionBar().setTitle(title);
                 progressDialog.dismiss();
+                Toast.makeText(OpenUrl.this,title,Toast.LENGTH_SHORT).show();
 
             }
 
@@ -63,8 +63,8 @@ public class OpenUrl extends BaseActivity implements AdvancedWebView.Listener {
     @Override
     public void onPageStarted(String url, Bitmap favicon) {
         if (!url.equals(URL_ACCOUNT)) {
-            progressDialog = ProgressDialog.show(OpenUrl.this, "Loading", "Please Wait", false, false);
-            progressDialog.setCancelable(true);
+            progressDialog = ProgressDialog.show(OpenUrl.this, "Loading", "Please Wait", false, true);
+            progressDialog.setCancelable(false);
         } else {
 //            Toast.makeText(OpenUrl.this,"Loading Account Page",Toast.LENGTH_SHORT).show();
         }
@@ -73,7 +73,14 @@ public class OpenUrl extends BaseActivity implements AdvancedWebView.Listener {
 
     @Override
     public void onPageFinished(String url) {
+        progressDialog.dismiss();
     }
+
+
+//    @Override
+//    protected void onTitleChanged(CharSequence title, int color) {
+//        progressDialog.dismiss();
+//    }
 
     @Override
     public void onPageError(int errorCode, String description, String failingUrl) {

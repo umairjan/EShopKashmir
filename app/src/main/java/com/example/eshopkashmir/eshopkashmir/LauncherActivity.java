@@ -1,15 +1,12 @@
 package com.example.eshopkashmir.eshopkashmir;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.support.v4.view.ViewPager;
-
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -51,7 +48,7 @@ public class LauncherActivity extends BaseActivity {
         logo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                displayCategory(UrlValues.Home);
+                displayCategory(UrlValues.HOME);
 
             }
         });
@@ -96,6 +93,7 @@ public class LauncherActivity extends BaseActivity {
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(),2);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setNestedScrollingEnabled(false);
+        recyclerView.setBackground(getResources().getDrawable(R.drawable.background));
 
         final ArrayList<Category> categoryName = prepareData();
         CategoryAdapter adapter = new CategoryAdapter(getApplicationContext(),categoryName);

@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/categoryScroll">
+    android:id="@+id/categoryScroll"
+    >
 
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -11,6 +12,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+        android:background="@drawable/background"
     tools:context="com.example.eshopkashmir.eshopkashmir.LauncherActivity">
         <android.support.v7.widget.Toolbar
             android:layout_width="match_parent"
@@ -18,7 +20,7 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/toolbar"
-            android:background="@color/themeColor"
+            android:background="#248DCD"
             android:elevation="4dp"
             android:theme="@style/ToolBarStyle"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
