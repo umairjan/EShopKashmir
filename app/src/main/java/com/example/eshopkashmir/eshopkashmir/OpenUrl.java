@@ -44,8 +44,6 @@ public class OpenUrl extends BaseActivity implements AdvancedWebView.Listener {
                 super.onReceivedTitle(view, title);
                 getSupportActionBar().setTitle(title);
                 progressDialog.dismiss();
-                Toast.makeText(OpenUrl.this,title,Toast.LENGTH_SHORT).show();
-
             }
 
         });
