@@ -78,7 +78,7 @@ public class BaseActivity extends AppCompatActivity {
         Intent intent = new Intent(this,OpenUrl.class);
         intent.putExtra("url",url);
         startActivity(intent);
-        finish();
+//        finish();
 
     }
 }

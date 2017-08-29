@@ -53,7 +53,7 @@ public class LauncherActivity extends BaseActivity {
             }
         });
         scrollView = (NestedScrollView) findViewById(R.id.categoryScroll);
-        scrollView.setSmoothScrollingEnabled(true);
+//        scrollView.setSmoothScrollingEnabled(true);
         initSlider();
         initCategories();
     }
@@ -163,7 +163,6 @@ public class LauncherActivity extends BaseActivity {
     private void displayCategory(String url){
         Intent intent = new Intent(this,OpenUrl.class);
         intent.putExtra("url",url);
-
         startActivity(intent);
     }
 

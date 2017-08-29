@@ -7,4 +7,6 @@
     <string name="search">Search</string>
     <string name="wishlist">My Wishlist</string>
     <string name="my_cart">My Cart</string>
+    <string name="loading">Loading</string>
+    <string name="wait">Please Wait</string>
 </resources>

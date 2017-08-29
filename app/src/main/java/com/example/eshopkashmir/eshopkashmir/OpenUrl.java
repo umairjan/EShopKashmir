@@ -17,7 +17,7 @@ import im.delight.android.webview.AdvancedWebView;
 public class OpenUrl extends BaseActivity implements AdvancedWebView.Listener {
 
     private static final String URL_ACCOUNT = "http://eshopkashmir.com/customer/account/login/";
-    ProgressDialog progressDialog;
+    ProgressDialog progressDialog = null;
     AdvancedWebView mWebView;
 
     @Override
@@ -41,11 +41,13 @@ public class OpenUrl extends BaseActivity implements AdvancedWebView.Listener {
 
             @Override
             public void onReceivedTitle(WebView view, String title) {
-                super.onReceivedTitle(view, title);
-                getSupportActionBar().setTitle(title);
                 progressDialog.dismiss();
             }
 
+            @Override
+            public void onReceivedIcon(WebView view, Bitmap icon) {
+                progressDialog.dismiss();
+            }
         });
         if(isInternetPresent()){
             mWebView.loadUrl(url);
@@ -61,8 +63,8 @@ public class OpenUrl extends BaseActivity implements AdvancedWebView.Listener {
     @Override
     public void onPageStarted(String url, Bitmap favicon) {
         if (!url.equals(URL_ACCOUNT)) {
-            progressDialog = ProgressDialog.show(OpenUrl.this, "Loading", "Please Wait", false, true);
-            progressDialog.setCancelable(false);
+            progressDialog = ProgressDialog.show(OpenUrl.this, getString(R.string.loading), getString(R.string.wait), false, false);
+            progressDialog.setCancelable(true);
         } else {
 //            Toast.makeText(OpenUrl.this,"Loading Account Page",Toast.LENGTH_SHORT).show();
         }
@@ -75,10 +77,6 @@ public class OpenUrl extends BaseActivity implements AdvancedWebView.Listener {
     }
 
 
-//    @Override
-//    protected void onTitleChanged(CharSequence title, int color) {
-//        progressDialog.dismiss();
-//    }
 
     @Override
     public void onPageError(int errorCode, String description, String failingUrl) {
