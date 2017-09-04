@@ -43,7 +43,7 @@ public class LauncherActivity extends BaseActivity {
         setContentView(R.layout.activity_launcher);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(R.string.e_shop_kashmir);
+//        getSupportActionBar().setTitle(R.string.e_shop_kashmir);
         logo = (ImageView) findViewById(R.id.logo);
         logo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,7 +143,7 @@ public class LauncherActivity extends BaseActivity {
                                 url = UrlValues.SPECIAL_CATEGORY;
                         }
 
-                        displayCategory(url);
+                        displayCategoryFirst(url);
                     }
                 }));
 
@@ -160,7 +160,7 @@ public class LauncherActivity extends BaseActivity {
         return categoryItem;
     }
 
-    private void displayCategory(String url){
+    private void displayCategoryFirst(String url){
         Intent intent = new Intent(this,OpenUrl.class);
         intent.putExtra("url",url);
         startActivity(intent);

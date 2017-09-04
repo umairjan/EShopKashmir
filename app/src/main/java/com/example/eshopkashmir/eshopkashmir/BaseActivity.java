@@ -29,10 +29,18 @@ public class BaseActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new android.widget.SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                String url = "http://eshopkashmir.com/catalogsearch/result/?cat=&q=";
+                String url = "https://eshopkashmir.com/catalogsearch/result/?cat=&q=";
                 String[] queryArray = query.split(" ");
                 for (int i = 0; i < queryArray.length; i++){
-                    url += queryArray[i];
+                    if(queryArray.length < 2) {
+                        url += queryArray[i];
+                    } else {
+                        if(i==0) {
+                            url += queryArray[i];
+                        } else {
+                            url += "+" + queryArray[i];
+                        }
+                    }
                 }
 
                 displayCategory(url);
@@ -74,11 +82,11 @@ public class BaseActivity extends AppCompatActivity {
         return true;
     }
 
-    private void displayCategory(String url){
+    public void displayCategory(String url){
         Intent intent = new Intent(this,OpenUrl.class);
         intent.putExtra("url",url);
         startActivity(intent);
-//        finish();
+        finish();
 
     }
 }

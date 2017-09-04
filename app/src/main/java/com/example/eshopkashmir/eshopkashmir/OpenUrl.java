@@ -38,9 +38,8 @@ public class OpenUrl extends BaseActivity implements AdvancedWebView.Listener {
 
         mWebView.setWebChromeClient(new WebChromeClient(){
 
-
             @Override
-            public void onReceivedTitle(WebView view, String title) {
+            public void onReceivedTitle(WebView view, String title) {;
                 progressDialog.dismiss();
             }
 
@@ -49,6 +48,8 @@ public class OpenUrl extends BaseActivity implements AdvancedWebView.Listener {
                 progressDialog.dismiss();
             }
         });
+
+        Log.e("url",url);
         if(isInternetPresent()){
             mWebView.loadUrl(url);
         } else {
@@ -56,7 +57,9 @@ public class OpenUrl extends BaseActivity implements AdvancedWebView.Listener {
             return;
         }
 
+
     }
+
 
 
 
