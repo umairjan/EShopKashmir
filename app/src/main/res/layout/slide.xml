@@ -7,10 +7,9 @@
     <ImageView
         android:id="@+id/image"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="135dp"
         android:adjustViewBounds="true"
         android:layout_gravity="top"
-        android:src="@drawable/slider_coming_soon"
-        android:scaleType="centerCrop"/>
+        android:scaleType="fitXY"/>
 
 </FrameLayout>

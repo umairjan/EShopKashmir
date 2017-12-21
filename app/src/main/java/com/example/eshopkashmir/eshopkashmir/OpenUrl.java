@@ -2,6 +2,7 @@ package com.example.eshopkashmir.eshopkashmir;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -23,33 +24,29 @@ public class OpenUrl extends BaseActivity implements AdvancedWebView.Listener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        progressDialog = new ProgressDialog(this);
         setContentView(R.layout.activity_open_url);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        String url = getIntent().getExtras().getString("url");
+        final String url = getIntent().getExtras().getString("url");
         mWebView = (AdvancedWebView) findViewById(R.id.urlWebView);
         mWebView.setListener(this,this);
         mWebView.setGeolocationEnabled(true);
         mWebView.setMixedContentAllowed(true);
         mWebView.setCookiesEnabled(true);
         mWebView.setThirdPartyCookiesEnabled(true);
-        mWebView.getSettings().setJavaScriptEnabled(true);
+//        mWebView.getSettings().setJavaScriptEnabled(true);
 
         mWebView.setWebChromeClient(new WebChromeClient(){
 
             @Override
-            public void onReceivedTitle(WebView view, String title) {;
-                progressDialog.dismiss();
+            public void onReceivedTitle(WebView view, String title) {
+//                if (!url.equals(UrlValues.CART_UPDATE)) {
+                    progressDialog.dismiss();
+//                }
             }
 
-            @Override
-            public void onReceivedIcon(WebView view, Bitmap icon) {
-                progressDialog.dismiss();
-            }
         });
 
-        Log.e("url",url);
         if(isInternetPresent()){
             mWebView.loadUrl(url);
         } else {
@@ -60,23 +57,36 @@ public class OpenUrl extends BaseActivity implements AdvancedWebView.Listener {
 
     }
 
+    @Override
+    public void onBackPressed()
+    {
+       startActivity(new Intent(OpenUrl.this,LauncherActivity.class));
+    }
+
 
 
 
     @Override
     public void onPageStarted(String url, Bitmap favicon) {
-        if (!url.equals(URL_ACCOUNT)) {
-            progressDialog = ProgressDialog.show(OpenUrl.this, getString(R.string.loading), getString(R.string.wait), false, false);
-            progressDialog.setCancelable(true);
-        } else {
+//        Log.e("URL", String.valueOf(url.equals(UrlValues.MY_CART)));
+//        if (!url.equals(URL_ACCOUNT) && !url.equals(UrlValues.CART_UPDATE)) {
+                Log.e("URL",url);
+                progressDialog = ProgressDialog.show(OpenUrl.this, getString(R.string.loading), getString(R.string.wait), false, false);
+                progressDialog.setCancelable(true);
+//            } else {
 //            Toast.makeText(OpenUrl.this,"Loading Account Page",Toast.LENGTH_SHORT).show();
-        }
+//            if (!url.equals(UrlValues.CART_UPDATE)){
+//                Toast.makeText(OpenUrl.this,"Updating Your Cart",Toast.LENGTH_SHORT).show();
+//            }
+//        }
 
     }
 
     @Override
     public void onPageFinished(String url) {
-        progressDialog.dismiss();
+//        if (!url.equals(UrlValues.CART_UPDATE)) {
+            progressDialog.dismiss();
+//        }
     }
 
 

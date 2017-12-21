@@ -1,12 +1,14 @@
 package com.example.eshopkashmir.eshopkashmir;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -19,22 +21,26 @@ import me.relex.circleindicator.CircleIndicator;
 public class LauncherActivity extends BaseActivity {
     private static ViewPager mPager;
     private static int currentPage = 0;
-    private static final Integer[] SLIDER = {R.drawable.slider_coming_soon, R.drawable.banner2};
+    private static final Integer[] SLIDER = {R.drawable.slider1, R.drawable.slider2,R.drawable.slider3,R.drawable.slider4};
     private ArrayList<Integer> sliderArrayList = new ArrayList<Integer>();
     private final String[] category_names = {
-            "Grocery And Staples","Regular Food Items", "Bakery And Confectionery", "Non Veg", "Dry Fruits",
-            "Baby Care And Toys", "Personal Care", "Cleaning Supplies", "Books And Stationary", "Medicines",
-            "Electronics", "Special Category"
+            "Grocery And Staples","Regular Food Items", "Chocolate And Sweets", "Books And Stationary", "Baby Care And Toys",
+            "Personal Care", "Cleaning Supplies", "Special Category", "Dry Fruits",
+            "Electronics", "Medical Equipments"
     };
 
     private final int[] image_url = {
-            R.drawable.ic_groceries, R.drawable.ic_food, R.drawable.ic_bakery, R.drawable.ic_meat,
-            R.drawable.ic_dry_fruits, R.drawable.ic_baby, R.drawable.ic_daily_supplies, R.drawable.ic_personal_care,
-            R.drawable.ic_notebook, R.drawable.ic_medicine, R.drawable.ic_electronics, R.drawable.ic_specials
+            R.drawable.ic_groceries, R.drawable.ic_food, R.drawable.ic_bakery, R.drawable.ic_notebook, R.drawable.ic_baby,
+            R.drawable.ic_personal_care, R.drawable.ic_daily_supplies, R.drawable.ic_specials, R.drawable.ic_dry_fruits,
+            R.drawable.ic_electronics, R.drawable.ic_medical_equipments
+
     };
     private NestedScrollView scrollView;
     String url;
     ImageView logo;
+    private ImageView fb;
+    private ImageView instagram;
+    private Timer swipeTimer;
 
 
     @Override
@@ -44,11 +50,25 @@ public class LauncherActivity extends BaseActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 //        getSupportActionBar().setTitle(R.string.e_shop_kashmir);
+        fb = (ImageView) findViewById(R.id.facebook);
+        instagram = (ImageView) findViewById(R.id.instagram);
+        fb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(UrlValues.FB)));
+            }
+        });
+        instagram.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(UrlValues.INSTAGRAM)));
+            }
+        });
         logo = (ImageView) findViewById(R.id.logo);
         logo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                displayCategory(UrlValues.HOME);
+                displayCategoryFirst(UrlValues.HOME);
 
             }
         });
@@ -59,11 +79,12 @@ public class LauncherActivity extends BaseActivity {
     }
 
 
-    public void initSlider(){
+    synchronized public void  initSlider(){
         for(int i=0; i<SLIDER.length; i++)
             sliderArrayList.add(SLIDER[i]);
 
         mPager = (ViewPager) findViewById(R.id.pager);
+
         mPager.setAdapter(new ImageAdapter(LauncherActivity.this,sliderArrayList));
         CircleIndicator indicator = (CircleIndicator) findViewById(R.id.indicator);
         indicator.setViewPager(mPager);
@@ -78,10 +99,11 @@ public class LauncherActivity extends BaseActivity {
                 mPager.setCurrentItem(currentPage++, true);
             }
         };
-        Timer swipeTimer = new Timer();
+        swipeTimer = new Timer();
         swipeTimer.schedule(new TimerTask() {
             @Override
             public void run() {
+                Log.e("Run","called");
                 handler.post(Update);
             }
         }, 5000, 5000);
@@ -90,7 +112,7 @@ public class LauncherActivity extends BaseActivity {
     public void initCategories(){
         RecyclerView recyclerView = (RecyclerView)findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(),2);
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(),3);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setBackground(getResources().getDrawable(R.drawable.background));
@@ -113,34 +135,32 @@ public class LauncherActivity extends BaseActivity {
                                 url = UrlValues.REGULAR_FOOD_ITEMS;
                                 break;
                             case 2:
-                                url = UrlValues.BAKERY_AND_CONFECTIONARY;
+                                url = UrlValues.CHOCOLATE_AND_SWEETS;
                                 break;
                             case 3:
-                                url = UrlValues.NON_VEG;
-                                break;
-                            case 4:
-                                url = UrlValues.DRY_FRUITS;
-                                break;
-                            case 5:
-                                url = UrlValues.BABY_CARE_AND_TOYS;
-                                break;
-                            case 6:
-                                url = UrlValues.PERSONAL_CARE;
-                                break;
-                            case 7:
-                                url = UrlValues.CLEANING_SUPPLIES;
-                                break;
-                            case 8:
                                 url = UrlValues.BOOKS_AND_STATIONARY;
                                 break;
-                            case 9:
-                                url = UrlValues.MEDICINES;
+                            case 4:
+                                url = UrlValues.BABY_CARE_AND_TOYS;
                                 break;
-                            case 10:
+                            case 5:
+                                url = UrlValues.PERSONAL_CARE;
+                                break;
+                            case 6:
+                                url = UrlValues.CLEANING_SUPPLIES;
+                                break;
+                            case 7:
+                                url = UrlValues.SPECIAL_CATEGORY;
+                                break;
+                            case 8:
+                                url = UrlValues.DRY_FRUITS;
+                                break;
+
+                            case 9:
                                 url = UrlValues.ELECTRONICS;
                                 break;
-                            case 11:
-                                url = UrlValues.SPECIAL_CATEGORY;
+                            case 10:
+                                url = UrlValues.MEDICAL_EQUIPMENTS;
                         }
 
                         displayCategoryFirst(url);
@@ -163,7 +183,9 @@ public class LauncherActivity extends BaseActivity {
     private void displayCategoryFirst(String url){
         Intent intent = new Intent(this,OpenUrl.class);
         intent.putExtra("url",url);
+        swipeTimer.cancel();
         startActivity(intent);
+        finish();
     }
 
 }
