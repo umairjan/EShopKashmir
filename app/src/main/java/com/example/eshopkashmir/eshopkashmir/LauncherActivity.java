@@ -1,194 +1,112 @@
 package com.example.eshopkashmir.eshopkashmir;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
+import android.graphics.Bitmap;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
-import android.support.v4.widget.NestedScrollView;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
+import android.webkit.WebChromeClient;
+import android.webkit.WebView;
+import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
+import im.delight.android.webview.AdvancedWebView;
 
-import me.relex.circleindicator.CircleIndicator;
+public class LauncherActivity extends AppCompatActivity implements AdvancedWebView.Listener {
 
-public class LauncherActivity extends BaseActivity {
-    private static ViewPager mPager;
-    private static int currentPage = 0;
-    private static final Integer[] SLIDER = {R.drawable.slider1, R.drawable.slider2,R.drawable.slider3,R.drawable.slider4};
-    private ArrayList<Integer> sliderArrayList = new ArrayList<Integer>();
-    private final String[] category_names = {
-            "Grocery And Staples","Regular Food Items", "Chocolate And Sweets", "Books And Stationary", "Baby Care And Toys",
-            "Personal Care", "Cleaning Supplies", "Special Category", "Dry Fruits",
-            "Electronics", "Medical Equipments"
-    };
+    private static final String WISHLIST = "https://www.eshopkashmir.in/index.php?route=account/wishlist";
+    private static final String ORDER = "https://www.eshopkashmir.in/index.php?route=account/order";
 
-    private final int[] image_url = {
-            R.drawable.ic_groceries, R.drawable.ic_food, R.drawable.ic_bakery, R.drawable.ic_notebook, R.drawable.ic_baby,
-            R.drawable.ic_personal_care, R.drawable.ic_daily_supplies, R.drawable.ic_specials, R.drawable.ic_dry_fruits,
-            R.drawable.ic_electronics, R.drawable.ic_medical_equipments
-
-    };
-    private NestedScrollView scrollView;
-    String url;
-    ImageView logo;
-    private ImageView fb;
-    private ImageView instagram;
-    private Timer swipeTimer;
-
+    ProgressDialog progressDialog = null;
+    AdvancedWebView mWebView;
+    public static final String url = "https://www.eshopkashmir.in";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launcher);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-//        getSupportActionBar().setTitle(R.string.e_shop_kashmir);
-        fb = (ImageView) findViewById(R.id.facebook);
-        instagram = (ImageView) findViewById(R.id.instagram);
-        fb.setOnClickListener(new View.OnClickListener() {
+        mWebView = (AdvancedWebView) findViewById(R.id.urlWebViewMain);
+        mWebView.setListener(this,this);
+        mWebView.setGeolocationEnabled(true);
+        mWebView.setMixedContentAllowed(true);
+        mWebView.setCookiesEnabled(true);
+        mWebView.setThirdPartyCookiesEnabled(true);
+
+        mWebView.setWebChromeClient(new WebChromeClient(){
+
             @Override
-            public void onClick(View v) {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(UrlValues.FB)));
+            public void onReceivedTitle(WebView view, String title) {
+                progressDialog.dismiss();
             }
+
         });
-        instagram.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(UrlValues.INSTAGRAM)));
-            }
-        });
-        logo = (ImageView) findViewById(R.id.logo);
-        logo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                displayCategoryFirst(UrlValues.HOME);
 
-            }
-        });
-        scrollView = (NestedScrollView) findViewById(R.id.categoryScroll);
-//        scrollView.setSmoothScrollingEnabled(true);
-        initSlider();
-        initCategories();
-    }
-
-
-    synchronized public void  initSlider(){
-        for(int i=0; i<SLIDER.length; i++)
-            sliderArrayList.add(SLIDER[i]);
-
-        mPager = (ViewPager) findViewById(R.id.pager);
-
-        mPager.setAdapter(new ImageAdapter(LauncherActivity.this,sliderArrayList));
-        CircleIndicator indicator = (CircleIndicator) findViewById(R.id.indicator);
-        indicator.setViewPager(mPager);
-
-        // Auto start of viewpager
-        final android.os.Handler handler = new android.os.Handler();
-        final Runnable Update = new Runnable() {
-            public void run() {
-                if (currentPage == SLIDER.length) {
-                    currentPage = 0;
-                }
-                mPager.setCurrentItem(currentPage++, true);
-            }
-        };
-        swipeTimer = new Timer();
-        swipeTimer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                Log.e("Run","called");
-                handler.post(Update);
-            }
-        }, 5000, 5000);
-    }
-
-    public void initCategories(){
-        RecyclerView recyclerView = (RecyclerView)findViewById(R.id.recyclerView);
-        recyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(),3);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setNestedScrollingEnabled(false);
-        recyclerView.setBackground(getResources().getDrawable(R.drawable.background));
-
-        final ArrayList<Category> categoryName = prepareData();
-        CategoryAdapter adapter = new CategoryAdapter(getApplicationContext(),categoryName);
-        recyclerView.setAdapter(adapter);
-//        int alpha = (int)(.50f * 255.0f);
-//        recyclerView.setBackgroundColor(Color.argb(alpha,244,162,52));
-        recyclerView.addOnItemTouchListener(
-                new RecyclerItemClickListener(LauncherActivity.this, new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View view, int position) {
-
-                        switch (position){
-                            case 0:
-                                url = UrlValues.GROCERY_AND_STAPLES;
-                                break;
-                            case 1:
-                                url = UrlValues.REGULAR_FOOD_ITEMS;
-                                break;
-                            case 2:
-                                url = UrlValues.CHOCOLATE_AND_SWEETS;
-                                break;
-                            case 3:
-                                url = UrlValues.BOOKS_AND_STATIONARY;
-                                break;
-                            case 4:
-                                url = UrlValues.BABY_CARE_AND_TOYS;
-                                break;
-                            case 5:
-                                url = UrlValues.PERSONAL_CARE;
-                                break;
-                            case 6:
-                                url = UrlValues.CLEANING_SUPPLIES;
-                                break;
-                            case 7:
-                                url = UrlValues.SPECIAL_CATEGORY;
-                                break;
-                            case 8:
-                                url = UrlValues.DRY_FRUITS;
-                                break;
-
-                            case 9:
-                                url = UrlValues.ELECTRONICS;
-                                break;
-                            case 10:
-                                url = UrlValues.MEDICAL_EQUIPMENTS;
-                        }
-
-                        displayCategoryFirst(url);
-                    }
-                }));
-
-    }
-    private ArrayList<Category> prepareData(){
-
-        ArrayList<Category> categoryItem = new ArrayList<>();
-        for(int i=0;i<category_names.length;i++){
-            Category category = new Category();
-            category.setCategory_name(category_names[i]);
-            category.setCategory_image_url(image_url[i]);
-            categoryItem.add(category);
+        if(isInternetPresent()){
+            mWebView.loadUrl(url);
+        } else {
+            Toast.makeText(LauncherActivity.this,"Check Your Internet Connection",Toast.LENGTH_LONG).show();
+            return;
         }
-        return categoryItem;
+
+
     }
 
-    private void displayCategoryFirst(String url){
-        Intent intent = new Intent(this,OpenUrl.class);
-        intent.putExtra("url",url);
-        swipeTimer.cancel();
-        startActivity(intent);
-        finish();
+    @Override
+    public void onBackPressed()
+
+    {
+        Intent a = new Intent(Intent.ACTION_MAIN);
+        a.addCategory(Intent.CATEGORY_HOME);
+        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(a);
+//        mWebView.loadUrl("https://www.eshopkashmir.com");
+    }
+
+
+
+
+    @Override
+    public void onPageStarted(String url, Bitmap favicon) {
+        if (!url.equals(WISHLIST)&& !url.equals(ORDER)) {
+            Log.e("URL", url);
+            progressDialog = ProgressDialog.show(LauncherActivity.this, getString(R.string.loading), getString(R.string.wait), false, false);
+            progressDialog.setCancelable(true);
+        }
+    }
+
+    @Override
+    public void onPageFinished(String url) {
+        progressDialog.dismiss();
+    }
+
+
+
+    @Override
+    public void onPageError(int errorCode, String description, String failingUrl) {
+        Toast.makeText(this,"There was some error",Toast.LENGTH_SHORT).show();
+        Log.e("error",description);
+
+    }
+
+    @Override
+    public void onDownloadRequested(String url, String suggestedFilename, String mimeType, long contentLength, String contentDisposition, String userAgent) {
+
+    }
+    @Override
+    public void onExternalPageRequest(String url) {
+
+    }
+
+    private boolean isInternetPresent(){
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+
+        return  networkInfo != null && networkInfo.isConnected();
     }
 
 }
-
-
-

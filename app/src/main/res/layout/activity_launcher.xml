@@ -1,123 +1,18 @@
 <?xml0 version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/categoryScroll"
-    >
-
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_width="match_parent"
     android:orientation="vertical"
-        android:background="@drawable/background"
-    tools:context="com.example.eshopkashmir.eshopkashmir.LauncherActivity">
-        <android.support.v7.widget.Toolbar
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/toolbar"
-            android:background="#248DCD"
-            android:elevation="4dp"
-            android:theme="@style/ToolBarStyle"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            />
-
-
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
-
-            <android.support.v4.view.ViewPager
-            android:id="@+id/pager"
-            android:layout_width="match_parent"
-            android:layout_height="135dp"
-            />
-        <me.relex.circleindicator.CircleIndicator
-            android:id="@+id/indicator"
-            android:layout_width="match_parent"
-            android:layout_height="20dp"/>
-    </RelativeLayout>
-
-
-    <ImageView
-        android:layout_width="250dp"
-        android:layout_height="40dp"
-        android:src="@drawable/eshopkashmir"
-        android:id="@+id/logo"
-        android:scaleType="fitXY"
-        android:layout_gravity="center"
-        />
-
-
-    <!--<TextView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="@string/site_description"-->
-        <!--/>-->
-    <LinearLayout
+    >
+    <im.delight.android.webview.AdvancedWebView
+        android:id="@+id/urlWebViewMain"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="5dp"
-        android:padding="5dp"
-        >
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="4"
-            >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="45dp"
-            android:text="@string/categories"
-            android:textColor="@android:color/black"
-            android:textSize="30sp"
-            android:textStyle="bold"
-            android:fontFamily="casual"
-            />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_weight="1"
-            >
-        <ImageView
-            android:id="@+id/facebook"
-            android:layout_width="60dp"
-            android:layout_height="45dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginStart="40dp"
-            android:padding="5dp"
-            android:src="@drawable/facebook_icon"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteY="8dp"
+        tools:layout_editor_absoluteX="8dp"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools" />
 
-            />
-        <ImageView
-            android:id="@+id/instagram"
-            android:layout_width="60dp"
-            android:layout_height="45dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginStart="5dp"
-            android:padding="5dp"
-            android:src="@drawable/instagram_icon"
-            />
-        </LinearLayout>
+</LinearLayout>
 
-    </LinearLayout>
-
-        <android.support.v7.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="vertical"
-            android:id="@+id/recyclerView"
-            >
-        </android.support.v7.widget.RecyclerView>
-    </LinearLayout>
-</android.support.v4.widget.NestedScrollView>
